@@ -49,7 +49,7 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response moveBattleSnake(MoveRequest moveRequest) {
-        System.out.println(moveRequest);
+        System.out.println(moveRequest.turn);
         moveResponse moveResponse = new moveResponse("up", "Going up!");
         return Response.ok(moveResponse).build();
     }
