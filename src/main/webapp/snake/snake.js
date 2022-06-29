@@ -9,11 +9,12 @@ let formItems = document.querySelectorAll('input:not([disabled=true]), select');
 let updateBtn = document.getElementById('update-btn');
 
 function update() {
-    return service.updateSnake({
+    service.updateSnake({
         color: form.color.value,
         head: form.head.value,
         tail: form.tail.value
-    }).then(() => {
+    }).then((response) => {
+        console.log(response);
         updateBtn.disabled = true;
     })
 }
@@ -29,6 +30,7 @@ form.addEventListener('submit', (e) => {
 });
 
 function refresh(snakeDTO) {
+    console.log(snakeDTO);
     form.author.value = snakeDTO.author;
     form.color.value = snakeDTO.color;
     form.head.value = snakeDTO.head;
@@ -45,6 +47,8 @@ service.getSnake().then(currentValues => {
     refresh(currentValues);
 
     for (let input of formItems) {
+        console.log(input);
         input.disabled = false;
-    }
+}
 });
+

@@ -1,5 +1,7 @@
 package nl.hu.bep.model;
 
+import java.util.ArrayList;
+
 public class Snake {
     private String apiversion;
     private String author;
@@ -8,24 +10,30 @@ public class Snake {
     private String tail;
     private String version;
 
-//    constructor params
-//    String apiversion, String author, String color, String head, String tail, String version
-    public Snake() {
-//        hardcoded data
-        this.apiversion = "1";
-        this.author = "ilias";
-        this.color = "#888888";
-        this.head = "default";
-        this.tail = "default";
-        this.version = "0.0.1-beta";
+    private static ArrayList<Snake> alleSnakes = new ArrayList<>();
 
-//        this.apiversion = apiversion;
-//        this.author = author;
-//        this.color = color;
-//        this.head = head;
-//        this.tail = tail;
-//        this.version = version;
+    
+    public Snake(String apiversion, String author, String color, String head, String tail, String version) {
+        this.apiversion = apiversion;
+        this.author = author;
+        this.color = color;
+        this.head = head;
+        this.tail = tail;
+        this.version = version;
+
+        getAlleSnakes().add(this);
+
     }
+
+    public static Snake getSnakeByAuthor(String author) {
+        for (Snake snake : getAlleSnakes()) {
+            if (snake.getAuthor().equals(author)) {
+                return snake;
+            }
+        }
+        return null;
+    }
+
 
     public String getApiversion() {
         return apiversion;
@@ -73,5 +81,13 @@ public class Snake {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public static ArrayList<Snake> getAlleSnakes() {
+        return alleSnakes;
+    }
+
+    public void setAlleSnakes(ArrayList<Snake> alleSnakes) {
+        this.alleSnakes = alleSnakes;
     }
 }
