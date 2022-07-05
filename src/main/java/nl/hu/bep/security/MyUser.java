@@ -1,79 +1,93 @@
-//package nl.hu.bep.security;
-//
-//
-//import java.security.Principal;
-//import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.List;
-//
-//public class MyUser implements Principal {
-//
-//
-//    public String username;
-//    public String password;
-//    private String role;
-////    private Shopper shopper;
-//
+package nl.hu.bep.security;
+
+
+import nl.hu.bep.PersistensieManager.AppManager;
+import nl.hu.bep.model.Snake;
+
+import java.io.Serializable;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class MyUser implements Principal, Serializable {
+    public String username;
+    public String password;
+    private String role;
+
 //    public static List<MyUser> allUsers = new ArrayList<>();
-//
-//    private static List<MyUser> getAllUsers() {
-//        return Collections.unmodifiableList(allUsers);
-//    }
-//
-//    private MyUser(String username, String password, Shopper theShopper) {
-//        this.username = username;
-//        this.password = password;
-//        this.role = "user";
-//        this.shopper = theShopper;
+
+    private static List<MyUser> getAllUsers() {
+        return Collections.unmodifiableList(AppManager.getAppManager().getAlleUsers());
+    }
+
+    private MyUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.role = "user";
+
 //        allUsers.add(this);
-//    }
-//
-//    public static String validateLogin(String username, String password) {
-//        MyUser found = getUserByUsername(username);
-//
-//        if (found != null && found.password.equals(password)) return found.role;
-//        return null;
-//    }
-//
-//    public static MyUser getUserByUsername(String username) {
+        if (!AppManager.getAppManager().getAlleUsers().contains(this)) AppManager.getAppManager().getAlleUsers().add(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean resultaat = obj instanceof MyUser;
+
+        resultaat = resultaat && ((MyUser) obj).role.equals(role);
+        resultaat = resultaat && ((MyUser) obj).username.equals(username);
+        resultaat = resultaat && ((MyUser) obj).password.equals(password);
+
+        return resultaat;
+    }
+
+    public static String validateLogin(String username, String password) {
+        for (MyUser myUser : getAllUsers()) {
+            if (myUser.username.equals(username) && myUser.password.equals(password)) {
+                return myUser.role;
+            }
+        }
+        return null;
+    }
+
+    public static MyUser getUserByUsername(String username) {
+        for (MyUser myUser : getAllUsers()) {
+            if(myUser.username.equals(username)) return myUser;
+        }
+        return null;
+    }
+
+//    public static Snake getSnakeByUsername(String username){
 //        for (MyUser myUser : allUsers) {
-//            if(myUser.username.equals(username)) return myUser;
+//            if (myUser.getName().equals(username)) {
+//                return myUser.getSnake();
+//            }
 //        }
 //        return null;
 //    }
-//
-//    public static boolean addUser(String username, String password, String shopperName, String role) {
-//        Shopper shopper = Shopper.getShopperByName(shopperName);
-//
-////        if (getUserByUsername(username) == null && shopper != null) {
-////            new MyUser(username, password, shopper);
-////        }
-////        else return false;
-//
-//        if (getUserByUsername(username) == null && shopper != null && role.equals("admin")) {
-//            MyUser admin = new MyUser(username, password, shopper);
-//            admin.setRole("admin");
-//        }
-//        else if (getUserByUsername(username) == null && shopper != null && role.equals("user")) new MyUser(username, password, shopper);
-//        else return false;
-//
-//        return true;
-//    }
-//
-//    public String getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(String role) {
-//        this.role = role;
-//    }
-//
-//    @Override
-//    public String getName() {
-//        return username;
-//    }
-//
-//    public Shopper getShopper() {
-//        return shopper;
-//    }
-//}
+
+    public static boolean addUser(String username, String password, String role) {
+        MyUser myUser = MyUser.getUserByUsername(username);
+
+        if (myUser == null) {
+            new MyUser(username, password);
+            return true;
+        }
+
+        return false;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public String getName() {
+        return username;
+    }
+
+}

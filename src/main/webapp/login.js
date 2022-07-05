@@ -5,6 +5,7 @@ import LoginService from "./login-service.js";
 
 let service = new LoginService();
 
+
 function refresh() {
     if (service.isLoggedIn()) {
         document.forms.login.style = "display:none";
@@ -17,9 +18,15 @@ function refresh() {
 
 document.forms.login.addEventListener('submit', e => {
     e.preventDefault();
-    service.login(document.forms.login.username.value, document.forms.login.password.value).then(() => {
+    service.login(document.forms.login.username.value, document.forms.login.password.value).then((response) => {
+        sessionStorage.setItem("JWT", response.JWT);
+        sessionStorage.setItem("username", document.forms.login.username.value);
         window.location.reload();
+        console.log("login gedrukt")
     })
+
+    console.log(service.getUser())
+
 
 });
 

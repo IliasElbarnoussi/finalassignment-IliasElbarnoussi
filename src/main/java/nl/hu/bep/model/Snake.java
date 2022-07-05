@@ -1,8 +1,12 @@
 package nl.hu.bep.model;
 
+import nl.hu.bep.PersistensieManager.AppManager;
+import nl.hu.bep.security.MyUser;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Snake {
+public class Snake implements Serializable {
     private String apiversion;
     private String author;
     private String color;
@@ -10,8 +14,7 @@ public class Snake {
     private String tail;
     private String version;
 
-    private static ArrayList<Snake> alleSnakes = new ArrayList<>();
-
+    private ArrayList<Games> mijnGames = new ArrayList<>();
     
     public Snake(String apiversion, String author, String color, String head, String tail, String version) {
         this.apiversion = apiversion;
@@ -21,12 +24,28 @@ public class Snake {
         this.tail = tail;
         this.version = version;
 
-        getAlleSnakes().add(this);
+        if(!AppManager.getAppManager().getAlleSnakes().contains(this)) AppManager.getAppManager().getAlleSnakes().add(this);
 
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        boolean resultaat = obj instanceof Snake;
+
+        resultaat = resultaat && ((Snake) obj).apiversion.equals(apiversion);
+        resultaat = resultaat && ((Snake) obj).author.equals(author);
+        resultaat = resultaat && ((Snake) obj).color.equals(color);
+        resultaat = resultaat && ((Snake) obj).head.equals(head);
+        resultaat = resultaat && ((Snake) obj).tail.equals(tail);
+        resultaat = resultaat && ((Snake) obj).version.equals(version);
+
+        return resultaat;
+    }
+
+
+
     public static Snake getSnakeByAuthor(String author) {
-        for (Snake snake : getAlleSnakes()) {
+        for (Snake snake : AppManager.getAppManager().getAlleSnakes()) {
             if (snake.getAuthor().equals(author)) {
                 return snake;
             }
@@ -83,11 +102,4 @@ public class Snake {
         this.version = version;
     }
 
-    public static ArrayList<Snake> getAlleSnakes() {
-        return alleSnakes;
-    }
-
-    public void setAlleSnakes(ArrayList<Snake> alleSnakes) {
-        this.alleSnakes = alleSnakes;
-    }
 }

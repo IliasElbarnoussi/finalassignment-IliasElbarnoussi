@@ -1,17 +1,20 @@
 package nl.hu.bep.model;
 
+import nl.hu.bep.PersistensieManager.AppManager;
+
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
-public class Games {
+public class Games implements Serializable {
     private String id;
     private int aantalBeurten;
     private HashMap<String, Integer> meestBezochtePlek;
     private String redenEinde;
     private int aantalBochtjesLinksaf;
 
-    private static ArrayList<Games> alleGames = new ArrayList<>();
 
     public Games(String id, int aantalBeurten, HashMap meestBezochtePlek, String redenEinde, int aantalBochtjesLinksaf) {
         this.id = id;
@@ -20,19 +23,28 @@ public class Games {
         this.redenEinde = redenEinde;
         this.aantalBochtjesLinksaf = aantalBochtjesLinksaf;
 
-        getAlleGames().add(this);
+        if(!AppManager.getAppManager().getAlleGames().contains(this)) AppManager.getAppManager().getAlleGames().add(this);
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Games games = (Games) o;
+        return aantalBeurten == games.aantalBeurten && aantalBochtjesLinksaf == games.aantalBochtjesLinksaf && id.equals(games.id) && meestBezochtePlek.equals(games.meestBezochtePlek) && redenEinde.equals(games.redenEinde);
     }
 
     public static ArrayList<String> getAlleGamesIDs(){
         ArrayList<String> alleGameIDs = new ArrayList<>();
-        for (Games game : getAlleGames()) {
+        for (Games game : AppManager.getAppManager().getAlleGames()) {
             alleGameIDs.add(game.getId());
         }
         return alleGameIDs;
     }
 
     public static Games getGameDetailtsByID(String gameID) {
-        for (Games game : getAlleGames()) {
+        for (Games game : AppManager.getAppManager().getAlleGames()) {
             if (game.getId().equals(gameID))
                 return game;
         }
@@ -40,7 +52,7 @@ public class Games {
     }
 
     public static void deleteGame(Games id){
-        getAlleGames().remove(id);
+        AppManager.getAppManager().getAlleGames().remove(id);
     }
 
 
@@ -89,14 +101,6 @@ public class Games {
 
     public void setAantalBochtjesLinksaf(int aantalBochtjesLinksaf) {
         this.aantalBochtjesLinksaf = aantalBochtjesLinksaf;
-    }
-
-    public static ArrayList<Games> getAlleGames() {
-        return alleGames;
-    }
-
-    public static void setAlleGames(ArrayList<Games> alleGames) {
-        Games.alleGames = alleGames;
     }
 
 }

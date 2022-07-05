@@ -1,13 +1,17 @@
 package nl.hu.bep.webservices;
 
 import nl.hu.bep.jacksonrequest.MoveRequest;
+import nl.hu.bep.jacksonrequest.StartEndRequest;
 import nl.hu.bep.jacksonrequest.UpdateSnakeRequest;
 import nl.hu.bep.model.Games;
 import nl.hu.bep.model.Snake;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -34,21 +38,24 @@ class moveResponse {
 @Path("/snake")
 public class SnakeResource {
 
-//    public Snake getSnake() {
-//        return snake1;
-//    }
-
     @GET
+    @RolesAllowed("user")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBattleSnake() {
-        return Response.ok(Snake.getSnakeByAuthor("ilias")).build();
+    public Response getBattleSnake(@Context SecurityContext sc) {
+        System.out.println(sc.getUserPrincipal().getName());
+        return Response.ok(Snake.getSnakeByAuthor(sc.getUserPrincipal().getName())).build();
     }
 
     @POST
     @Path("/start")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response startBattle() {
+    public Response startBattle(StartEndRequest startEndRequest) {
+        HashMap game = startEndRequest.game;
+        HashMap ruleset = (HashMap) game.get("ruleset");
+        HashMap name = (HashMap) ruleset.get("name");
+
+        System.out.println(name);
         return Response.ok().build();
     }
 
@@ -83,8 +90,31 @@ public class SnakeResource {
             moveResponse.setMove("right");
         }
 
+        if (y == 0) {
+            moveResponse.setMove("left");
+        }
+
+        if (x == 0) {
+            moveResponse.setMove("up");
+        }
+
+
         if (x == 10 && y == 10) {
             moveResponse.setMove("left");
+        }
+
+        if (x == 0 && y == 0) {
+            moveResponse.setMove("right");
+        }
+
+        ///
+        if (x == 0 && y == 10) {
+            moveResponse.setMove("left");
+        }
+
+        ///
+        if (x == 10 && y == 0) {
+            moveResponse.setMove("up");
         }
 
         return Response.ok(moveResponse).build();
@@ -92,14 +122,16 @@ public class SnakeResource {
 
     @PUT
     @Path("/update")
+    @RolesAllowed("user")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBattleSnake(UpdateSnakeRequest updateSnakeRequest) {
-        Snake.getSnakeByAuthor("ilias").setColor(updateSnakeRequest.color);
-        Snake.getSnakeByAuthor("ilias").setHead(updateSnakeRequest.head);
-        Snake.getSnakeByAuthor("ilias").setTail(updateSnakeRequest.tail);
+    public Response updateBattleSnake(UpdateSnakeRequest updateSnakeRequest, @Context SecurityContext sc) {
+        String username = sc.getUserPrincipal().getName();
+        Snake.getSnakeByAuthor(username).setColor(updateSnakeRequest.color);
+        Snake.getSnakeByAuthor(username).setHead(updateSnakeRequest.head);
+        Snake.getSnakeByAuthor(username).setTail(updateSnakeRequest.tail);
 //        System.out.println(getSnake().getHead());
-        return Response.ok(Snake.getSnakeByAuthor("ilias")).build();
+        return Response.ok(Snake.getSnakeByAuthor(username)).build();
     }
 
 
