@@ -27,7 +27,6 @@ class moveResponse {
         this.move = move;
     }
 
-
 }
 
 @Path("/snake")
