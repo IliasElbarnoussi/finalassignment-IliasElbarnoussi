@@ -29,12 +29,19 @@ public class Games implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Games games = (Games) o;
-        return aantalBeurten == games.aantalBeurten && id.equals(games.id) && meestBezochtePlek.equals(games.meestBezochtePlek) && redenEinde.equals(games.redenEinde);
+    public boolean equals(Object obj) {
+        boolean resultaat = obj instanceof Games;
+        resultaat = resultaat && ((Games) obj).id.equals(id);
+        return resultaat;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Games games = (Games) o;
+//        return aantalBeurten == games.aantalBeurten && id.equals(games.id) && meestBezochtePlek.equals(games.meestBezochtePlek) && redenEinde.equals(games.redenEinde);
+//    }
 
     public static ArrayList<String> getAlleGamesIDs(){
         ArrayList<String> alleGameIDs = new ArrayList<>();

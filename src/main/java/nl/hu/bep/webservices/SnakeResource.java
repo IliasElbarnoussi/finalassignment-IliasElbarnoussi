@@ -83,16 +83,15 @@ public class SnakeResource {
         System.out.println("=============END============");
 
         Games game = Games.getGameDetailtsByID((String) startEndRequest.game.get("id"));
-        System.out.println(game.getBochtNaarBeneden());
+//        new Games("sdfdsfsdfsdvjhbsujfbsdghvb asj");
+//        Games game = Games.getGameDetailtsByID("sdfdsfsdfsdvjhbsujfbsdghvb asj");
 
-        game.setAantalBeurten((Integer) startEndRequest.game.get("turn"));
-        game.setSnakeLengte((Integer) startEndRequest.you.get("length"));
+        if (game != null) {
+            game.setAantalBeurten(startEndRequest.turn);
+            game.setSnakeLengte((Integer) startEndRequest.you.get("length"));
 
-//        System.out.println(startEndRequest.game);
-//        System.out.println(startEndRequest.turn);
-//        System.out.println(startEndRequest.you);
-//        System.out.println(startEndRequest.board);
-//        Games.getAlleGames().add(new Games())
+
+        }
         return Response.ok(game).build();
     }
 
@@ -102,7 +101,6 @@ public class SnakeResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response moveBattleSnake(MoveRequest moveRequest) {
         Games game = Games.getGameDetailtsByID((String) moveRequest.game.get("id"));
-        System.out.println(game.getId());
         moveResponse moveResponse = new moveResponse("up", "Going up!");
 
         ArrayList body = (ArrayList) moveRequest.you.get("body");
