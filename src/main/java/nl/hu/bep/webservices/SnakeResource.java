@@ -28,7 +28,6 @@ class moveResponse {
     public void setMove(String move) {
         this.move = move;
     }
-
     public void setShout(String shout) {
         this.shout = shout;
     }
@@ -39,7 +38,6 @@ class moveResponse {
 public class SnakeResource {
 
     @GET
-    @RolesAllowed("user")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBattleSnake(@Context SecurityContext sc) {
         System.out.println(sc.getUserPrincipal().getName());
