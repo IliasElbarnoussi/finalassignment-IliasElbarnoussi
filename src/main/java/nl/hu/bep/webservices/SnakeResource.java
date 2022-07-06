@@ -46,6 +46,7 @@ public class SnakeResource {
 
     @GET
     @Path("/get")
+    @RolesAllowed("user")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBattleSnake(@Context SecurityContext sc) {
         System.out.println(sc.getUserPrincipal().getName());

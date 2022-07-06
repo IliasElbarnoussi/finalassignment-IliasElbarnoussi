@@ -22,11 +22,10 @@ public class MyServletContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("initializing application");
         PersistenceManager.loadFrom();
-//        Snake snake = new Snake("1", "ilias", "#888888", "default", "default", "0.0.1-beta");
-//        HashMap tijdelijk = new HashMap<>();
-//        Games game = new Games("altijd-dezelfde", 12, tijdelijk, "muur-geraakt", 7);
-//        MyUser.addUser("ilias", "123", "user");
-
+        Snake snake = new Snake("1", "ilias", "#888888", "default", "default", "0.0.1-beta");
+        HashMap tijdelijk = new HashMap<>();
+        Games game = new Games("altijd-dezelfde", 12, tijdelijk, "muur-geraakt", 7);
+        MyUser.addUser("ilias", "123", "user");
     }
 
     @Override
@@ -46,8 +45,4 @@ public class MyServletContextListener implements ServletContextListener {
         Schedulers.shutdownNow();
         HttpResources.disposeLoopsAndConnectionsLater(Duration.ZERO, Duration.ZERO).block();
     }
-
-
-
-
 }
