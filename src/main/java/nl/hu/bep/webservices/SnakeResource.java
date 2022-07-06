@@ -12,9 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 class moveResponse {
     public String move;
@@ -92,6 +90,7 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response moveBattleSnake(MoveRequest moveRequest) {
+        ArrayList<String> mogelijkeRichtingen = new ArrayList<>(Arrays.asList("up", "down", "left", "right"));
         System.out.println(moveRequest.you.get("head"));
 
         LinkedHashMap you = (LinkedHashMap) moveRequest.you.get("head");
@@ -102,39 +101,75 @@ public class SnakeResource {
         int y = (int) you.get("y");
 
         if (x == 10) {
-            moveResponse.setMove("up");
+            mogelijkeRichtingen.remove("right");
+//            moveResponse.setMove("up");
         }
 
         if (y == 10) {
-            moveResponse.setMove("right");
+            mogelijkeRichtingen.remove("up");
+//            moveResponse.setMove("right");
         }
 
         if (y == 0) {
-            moveResponse.setMove("left");
+            mogelijkeRichtingen.remove("down");
+//            moveResponse.setMove("left");
         }
 
         if (x == 0) {
-            moveResponse.setMove("up");
+            mogelijkeRichtingen.remove("left");
+//            moveResponse.setMove("up");
         }
 
 
         if (x == 10 && y == 10) {
-            moveResponse.setMove("left");
+            mogelijkeRichtingen.remove("right");
+            mogelijkeRichtingen.remove("up");
+//            moveResponse.setMove("left");
         }
 
         if (x == 0 && y == 0) {
-            moveResponse.setMove("right");
+            mogelijkeRichtingen.remove("left");
+            mogelijkeRichtingen.remove("down");
+//            moveResponse.setMove("right");
         }
 
         ///
         if (x == 0 && y == 10) {
-            moveResponse.setMove("left");
+            mogelijkeRichtingen.remove("left");
+            mogelijkeRichtingen.remove("up");
+//            moveResponse.setMove("left");
         }
 
         ///
         if (x == 10 && y == 0) {
-            moveResponse.setMove("up");
+            mogelijkeRichtingen.remove("right");
+            mogelijkeRichtingen.remove("down");
+
         }
+        System.out.println("before neck check");
+        System.out.println(mogelijkeRichtingen);
+
+//        LinkedHashMap you = (LinkedHashMap) moveRequest.you.get("head");
+        LinkedHashMap neck = (LinkedHashMap) moveRequest.you.get("neck");
+
+        if (Integer.parseInt((String) neck.get("x")) < Integer.parseInt((String) you.get("x"))) {
+            mogelijkeRichtingen.remove("left");
+        } else if (Integer.parseInt((String) neck.get("x")) > Integer.parseInt((String) you.get("x"))) {
+            mogelijkeRichtingen.remove("right");
+        } else if (Integer.parseInt((String) neck.get("y")) < Integer.parseInt((String) you.get("y"))) {
+            mogelijkeRichtingen.remove("down");
+        } else if (Integer.parseInt((String) neck.get("y")) > Integer.parseInt((String) you.get("y"))) {
+            mogelijkeRichtingen.remove("up");
+        }
+        int choice = new Random().nextInt(mogelijkeRichtingen.size());
+        String move = mogelijkeRichtingen.get(choice);
+
+        moveResponse.setMove(move);
+
+
+        System.out.println("after neck check");
+        System.out.println(mogelijkeRichtingen);
+
 
         return Response.ok(moveResponse).build();
     }
