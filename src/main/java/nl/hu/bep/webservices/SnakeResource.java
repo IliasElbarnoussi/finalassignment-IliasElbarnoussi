@@ -91,14 +91,18 @@ public class SnakeResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response moveBattleSnake(MoveRequest moveRequest) {
         ArrayList<String> mogelijkeRichtingen = new ArrayList<>(Arrays.asList("up", "down", "left", "right"));
-        System.out.println(moveRequest.you.get("head"));
+//        System.out.println(moveRequest.you.get("head"));
 
-        LinkedHashMap you = (LinkedHashMap) moveRequest.you.get("head");
+//        LinkedHashMap you = (LinkedHashMap) moveRequest.you;
+
+        ArrayList body = (ArrayList) moveRequest.you.get("body");
+
+        LinkedHashMap head = (LinkedHashMap) moveRequest.you.get("head");
 
         moveResponse moveResponse = new moveResponse("up", "Going up!");
 
-        int x = (int) you.get("x");
-        int y = (int) you.get("y");
+        int x = (int) head.get("x");
+        int y = (int) head.get("y");
 
         if (x == 10) {
             mogelijkeRichtingen.remove("right");
@@ -150,17 +154,39 @@ public class SnakeResource {
         System.out.println(mogelijkeRichtingen);
 
 //        LinkedHashMap you = (LinkedHashMap) moveRequest.you.get("head");
-        LinkedHashMap neck = (LinkedHashMap) moveRequest.you.get("neck");
+//        System.out.println(you);
+//        ArrayList body = (ArrayList) you.get("body");
 
-        if (Integer.parseInt((String) neck.get("x")) < Integer.parseInt((String) you.get("x"))) {
+
+
+        System.out.println(body);
+        LinkedHashMap neck = (LinkedHashMap) body.get(1);
+        System.out.println(neck);
+        System.out.println(head);
+
+        int neck_x = (Integer) neck.get("x");
+        int neck_y = (Integer) neck.get("y");
+
+        int head_x = (Integer) head.get("x");
+        int head_y = (Integer) head.get("y");
+
+        System.out.println(neck_x);
+
+
+        if (neck_x < head_x) {
             mogelijkeRichtingen.remove("left");
-        } else if (Integer.parseInt((String) neck.get("x")) > Integer.parseInt((String) you.get("x"))) {
+
+        } else if (neck_x > head_x) {
             mogelijkeRichtingen.remove("right");
-        } else if (Integer.parseInt((String) neck.get("y")) < Integer.parseInt((String) you.get("y"))) {
+
+        } else if (neck_y < head_y) {
             mogelijkeRichtingen.remove("down");
-        } else if (Integer.parseInt((String) neck.get("y")) > Integer.parseInt((String) you.get("y"))) {
+
+        } else if (neck_y > head_y) {
             mogelijkeRichtingen.remove("up");
         }
+
+
         int choice = new Random().nextInt(mogelijkeRichtingen.size());
         String move = mogelijkeRichtingen.get(choice);
 
