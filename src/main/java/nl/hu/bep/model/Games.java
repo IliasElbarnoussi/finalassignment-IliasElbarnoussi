@@ -13,15 +13,16 @@ public class Games implements Serializable {
     private int aantalBeurten;
     private HashMap<String, Integer> meestBezochtePlek;
     private String redenEinde;
-    private int aantalBochtjesLinksaf;
+    private int snakeLengte;
+    private int bochtNaarLinks = 0;
+    private int bochtNaarRechts = 0;
+    private int bochtNaarBoven = 0;
+    private int bochtNaarBeneden = 0;
 
 
-    public Games(String id, int aantalBeurten, HashMap meestBezochtePlek, String redenEinde, int aantalBochtjesLinksaf) {
+    public Games(String id) {
         this.id = id;
-        this.aantalBeurten = aantalBeurten;
-        this.meestBezochtePlek = meestBezochtePlek;
-        this.redenEinde = redenEinde;
-        this.aantalBochtjesLinksaf = aantalBochtjesLinksaf;
+
 
         if(!AppManager.getAppManager().getAlleGames().contains(this)) AppManager.getAppManager().getAlleGames().add(this);
 
@@ -32,7 +33,7 @@ public class Games implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Games games = (Games) o;
-        return aantalBeurten == games.aantalBeurten && aantalBochtjesLinksaf == games.aantalBochtjesLinksaf && id.equals(games.id) && meestBezochtePlek.equals(games.meestBezochtePlek) && redenEinde.equals(games.redenEinde);
+        return aantalBeurten == games.aantalBeurten && id.equals(games.id) && meestBezochtePlek.equals(games.meestBezochtePlek) && redenEinde.equals(games.redenEinde);
     }
 
     public static ArrayList<String> getAlleGamesIDs(){
@@ -55,6 +56,23 @@ public class Games implements Serializable {
         AppManager.getAppManager().getAlleGames().remove(id);
     }
 
+    public void aantalBochtjes(String bocht) {
+        switch(bocht) {
+            case "up":
+                bochtNaarBoven++;
+                break;
+            case "down":
+                bochtNaarBeneden++;
+                break;
+            case "left":
+                bochtNaarLinks++;
+                break;
+            case "right":
+                bochtNaarRechts++;
+                break;
+        }
+    }
+
 
 //    public static void deleteGame(String gameID) {
 //        for (Games game : getAlleGames()) {
@@ -62,6 +80,48 @@ public class Games implements Serializable {
 //                getAlleGames().remove(game);
 //        }
 //    }
+
+
+    public int getSnakeLengte() {
+        return snakeLengte;
+    }
+
+    public void setSnakeLengte(int snakeLengte) {
+        this.snakeLengte = snakeLengte;
+    }
+
+
+    public int getBochtNaarLinks() {
+        return bochtNaarLinks;
+    }
+
+    public void setBochtNaarLinks(int bochtNaarLinks) {
+        this.bochtNaarLinks = bochtNaarLinks;
+    }
+
+    public int getBochtNaarRechts() {
+        return bochtNaarRechts;
+    }
+
+    public void setBochtNaarRechts(int bochtNaarRechts) {
+        this.bochtNaarRechts = bochtNaarRechts;
+    }
+
+    public int getBochtNaarBoven() {
+        return bochtNaarBoven;
+    }
+
+    public void setBochtNaarBoven(int bochtNaarBoven) {
+        this.bochtNaarBoven = bochtNaarBoven;
+    }
+
+    public int getBochtNaarBeneden() {
+        return bochtNaarBeneden;
+    }
+
+    public void setBochtNaarBeneden(int bochtNaarBeneden) {
+        this.bochtNaarBeneden = bochtNaarBeneden;
+    }
 
     public String getId() {
         return id;
@@ -93,14 +153,6 @@ public class Games implements Serializable {
 
     public void setRedenEinde(String redenEinde) {
         this.redenEinde = redenEinde;
-    }
-
-    public int getAantalBochtjesLinksaf() {
-        return aantalBochtjesLinksaf;
-    }
-
-    public void setAantalBochtjesLinksaf(int aantalBochtjesLinksaf) {
-        this.aantalBochtjesLinksaf = aantalBochtjesLinksaf;
     }
 
 }

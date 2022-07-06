@@ -42,8 +42,6 @@ public class Snake implements Serializable {
         return resultaat;
     }
 
-
-
     public static Snake getSnakeByAuthor(String author) {
         for (Snake snake : AppManager.getAppManager().getAlleSnakes()) {
             System.out.println(snake.getAuthor());
@@ -53,7 +51,6 @@ public class Snake implements Serializable {
         }
         return null;
     }
-
 
     public String getApiversion() {
         return apiversion;

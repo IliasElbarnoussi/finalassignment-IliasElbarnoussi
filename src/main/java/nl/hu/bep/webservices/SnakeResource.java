@@ -56,18 +56,22 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response startBattle(StartEndRequest startEndRequest) {
-        System.out.println("=============START============");
-        System.out.println(startEndRequest.game);
-        System.out.println(startEndRequest.turn);
-        System.out.println(startEndRequest.you);
-        System.out.println(startEndRequest.board);
+//        Snake.getSnakeByAuthor("ilias");
 
-//        System.out.println(startEndRequest);
-//        HashMap game = startEndRequest.game;
-//        HashMap ruleset = (HashMap) game.get("ruleset");
-//        HashMap name = (HashMap) ruleset.get("name");
+
+        new Games((String) startEndRequest.game.get("id"));
+        System.out.println("=============START============");
+//        System.out.println(startEndRequest.game);
+//        System.out.println(startEndRequest.turn);
+//        System.out.println(startEndRequest.you);
+//        System.out.println(startEndRequest.board);
 //
-//        System.out.println(name);
+////        System.out.println(startEndRequest);
+////        HashMap game = startEndRequest.game;
+////        HashMap ruleset = (HashMap) game.get("ruleset");
+////        HashMap name = (HashMap) ruleset.get("name");
+////
+////        System.out.println(name);
         return Response.ok().build();
     }
 
@@ -77,12 +81,19 @@ public class SnakeResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response endBattle(StartEndRequest startEndRequest) {
         System.out.println("=============END============");
-        System.out.println(startEndRequest.game);
-        System.out.println(startEndRequest.turn);
-        System.out.println(startEndRequest.you);
-        System.out.println(startEndRequest.board);
+
+        Games game = Games.getGameDetailtsByID((String) startEndRequest.game.get("id"));
+        System.out.println(game.getBochtNaarBeneden());
+
+        game.setAantalBeurten((Integer) startEndRequest.game.get("turn"));
+        game.setSnakeLengte((Integer) startEndRequest.you.get("length"));
+
+//        System.out.println(startEndRequest.game);
+//        System.out.println(startEndRequest.turn);
+//        System.out.println(startEndRequest.you);
+//        System.out.println(startEndRequest.board);
 //        Games.getAlleGames().add(new Games())
-        return Response.ok().build();
+        return Response.ok(game).build();
     }
 
     @POST
@@ -90,87 +101,62 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response moveBattleSnake(MoveRequest moveRequest) {
-        ArrayList<String> mogelijkeRichtingen = new ArrayList<>(Arrays.asList("up", "down", "left", "right"));
-//        System.out.println(moveRequest.you.get("head"));
-
-//        LinkedHashMap you = (LinkedHashMap) moveRequest.you;
+        Games game = Games.getGameDetailtsByID((String) moveRequest.game.get("id"));
+        System.out.println(game.getId());
+        moveResponse moveResponse = new moveResponse("up", "Going up!");
 
         ArrayList body = (ArrayList) moveRequest.you.get("body");
-
         LinkedHashMap head = (LinkedHashMap) moveRequest.you.get("head");
-
-        moveResponse moveResponse = new moveResponse("up", "Going up!");
 
         int x = (int) head.get("x");
         int y = (int) head.get("y");
 
+        ArrayList<String> mogelijkeRichtingen = new ArrayList<>(Arrays.asList("up", "down", "left", "right"));
         if (x == 10) {
             mogelijkeRichtingen.remove("right");
-//            moveResponse.setMove("up");
         }
 
         if (y == 10) {
             mogelijkeRichtingen.remove("up");
-//            moveResponse.setMove("right");
         }
 
         if (y == 0) {
             mogelijkeRichtingen.remove("down");
-//            moveResponse.setMove("left");
         }
 
         if (x == 0) {
             mogelijkeRichtingen.remove("left");
-//            moveResponse.setMove("up");
         }
 
 
         if (x == 10 && y == 10) {
             mogelijkeRichtingen.remove("right");
             mogelijkeRichtingen.remove("up");
-//            moveResponse.setMove("left");
         }
 
         if (x == 0 && y == 0) {
             mogelijkeRichtingen.remove("left");
             mogelijkeRichtingen.remove("down");
-//            moveResponse.setMove("right");
         }
 
-        ///
         if (x == 0 && y == 10) {
             mogelijkeRichtingen.remove("left");
             mogelijkeRichtingen.remove("up");
-//            moveResponse.setMove("left");
         }
 
-        ///
         if (x == 10 && y == 0) {
             mogelijkeRichtingen.remove("right");
             mogelijkeRichtingen.remove("down");
-
         }
-        System.out.println("before neck check");
-        System.out.println(mogelijkeRichtingen);
-
-//        LinkedHashMap you = (LinkedHashMap) moveRequest.you.get("head");
-//        System.out.println(you);
-//        ArrayList body = (ArrayList) you.get("body");
 
 
-
-        System.out.println(body);
         LinkedHashMap neck = (LinkedHashMap) body.get(1);
-        System.out.println(neck);
-        System.out.println(head);
 
         int neck_x = (Integer) neck.get("x");
         int neck_y = (Integer) neck.get("y");
 
         int head_x = (Integer) head.get("x");
         int head_y = (Integer) head.get("y");
-
-        System.out.println(neck_x);
 
 
         if (neck_x < head_x) {
@@ -186,15 +172,11 @@ public class SnakeResource {
             mogelijkeRichtingen.remove("up");
         }
 
-
         int choice = new Random().nextInt(mogelijkeRichtingen.size());
         String move = mogelijkeRichtingen.get(choice);
 
         moveResponse.setMove(move);
-
-
-        System.out.println("after neck check");
-        System.out.println(mogelijkeRichtingen);
+        game.aantalBochtjes(move);
 
 
         return Response.ok(moveResponse).build();

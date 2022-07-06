@@ -1,6 +1,6 @@
 export default class SnakeService {
     async getSnake() {
-        return Promise.resolve(fetch("http://localhost:8080/restservices/snake", {
+        return Promise.resolve(fetch("/restservices/snake", {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.JWT
             }
@@ -15,7 +15,7 @@ export default class SnakeService {
     async updateSnake(updatedSnake) {
         console.log(updatedSnake);
         //TODO: update je slang aan de server-kant met de nieuwe gegevens
-        return Promise.resolve(fetch("http://localhost:8080/restservices/snake/update", {
+        return Promise.resolve(fetch("/restservices/snake/update", {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

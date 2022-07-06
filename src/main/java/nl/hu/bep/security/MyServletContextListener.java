@@ -24,7 +24,8 @@ public class MyServletContextListener implements ServletContextListener {
         PersistenceManager.loadFrom();
         Snake snake = new Snake("1", "ilias", "#888888", "default", "default", "0.0.1-beta");
         HashMap tijdelijk = new HashMap<>();
-        Games game = new Games("altijd-dezelfde", 12, tijdelijk, "muur-geraakt", 7);
+//        Games game = new Games("altijd-dezelfde", 12, tijdelijk, "muur-geraakt", 7);
+        Games game = new Games("altijd-dezelfde");
         MyUser.addUser("ilias", "123", "user");
     }
 

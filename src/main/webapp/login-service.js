@@ -8,7 +8,7 @@ export default class LoginService {
     }
 
     login(user, password) {
-        return Promise.resolve(fetch("http://localhost:8080/restservices/auth", {
+        return Promise.resolve(fetch("/restservices/auth", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ export default class LoginService {
         //maar het zou altijd zomaar kunnen dat je token verlopen is, of dat er server-side iets anders aan de hand is.
         //Dus het is handig om te checken met een -echte fetch- of je login-token wel echt bruikbaar is.
 
-        return Promise.resolve(fetch("http://localhost:8080/restservices/user", {
+        return Promise.resolve(fetch("/restservices/user", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
