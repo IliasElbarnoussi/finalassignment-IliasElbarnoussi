@@ -58,12 +58,18 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response startBattle(StartEndRequest startEndRequest) {
-        System.out.println(startEndRequest);
-        HashMap game = startEndRequest.game;
-        HashMap ruleset = (HashMap) game.get("ruleset");
-        HashMap name = (HashMap) ruleset.get("name");
+        System.out.println("=============START============");
+        System.out.println(startEndRequest.game);
+        System.out.println(startEndRequest.turn);
+        System.out.println(startEndRequest.you);
+        System.out.println(startEndRequest.board);
 
-        System.out.println(name);
+//        System.out.println(startEndRequest);
+//        HashMap game = startEndRequest.game;
+//        HashMap ruleset = (HashMap) game.get("ruleset");
+//        HashMap name = (HashMap) ruleset.get("name");
+//
+//        System.out.println(name);
         return Response.ok().build();
     }
 
@@ -72,6 +78,7 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response endBattle(StartEndRequest startEndRequest) {
+        System.out.println("=============END============");
         System.out.println(startEndRequest.game);
         System.out.println(startEndRequest.turn);
         System.out.println(startEndRequest.you);
