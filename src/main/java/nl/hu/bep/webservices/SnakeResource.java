@@ -39,6 +39,13 @@ public class SnakeResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    public Response getBattleSnake() {
+        return Response.ok(Snake.getSnakeByAuthor("ilias")).build();
+    }
+
+    @GET
+    @Path("/get")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getBattleSnake(@Context SecurityContext sc) {
         System.out.println(sc.getUserPrincipal().getName());
         return Response.ok(Snake.getSnakeByAuthor(sc.getUserPrincipal().getName())).build();
