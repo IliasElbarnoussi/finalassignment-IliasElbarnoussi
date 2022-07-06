@@ -26,9 +26,7 @@ class moveResponse {
     public void setMove(String move) {
         this.move = move;
     }
-    public void setShout(String shout) {
-        this.shout = shout;
-    }
+
 
 }
 
@@ -56,22 +54,9 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response startBattle(StartEndRequest startEndRequest) {
-//        Snake.getSnakeByAuthor("ilias");
-
-
-        new Games((String) startEndRequest.game.get("id"));
         System.out.println("=============START============");
-//        System.out.println(startEndRequest.game);
-//        System.out.println(startEndRequest.turn);
-//        System.out.println(startEndRequest.you);
-//        System.out.println(startEndRequest.board);
-//
-////        System.out.println(startEndRequest);
-////        HashMap game = startEndRequest.game;
-////        HashMap ruleset = (HashMap) game.get("ruleset");
-////        HashMap name = (HashMap) ruleset.get("name");
-////
-////        System.out.println(name);
+        new Games((String) startEndRequest.game.get("id"));
+
         return Response.ok().build();
     }
 
@@ -82,14 +67,15 @@ public class SnakeResource {
     public Response endBattle(StartEndRequest startEndRequest) {
         System.out.println("=============END============");
 
+        LinkedHashMap head = (LinkedHashMap) startEndRequest.you.get("head");
         Games game = Games.getGameDetailtsByID((String) startEndRequest.game.get("id"));
-//        new Games("sdfdsfsdfsdvjhbsujfbsdghvb asj");
-//        Games game = Games.getGameDetailtsByID("sdfdsfsdfsdvjhbsujfbsdghvb asj");
+
 
         if (game != null) {
             game.setAantalBeurten(startEndRequest.turn);
+            game.setGezondheid((Integer) startEndRequest.you.get("health"));
             game.setSnakeLengte((Integer) startEndRequest.you.get("length"));
-
+            game.redenGameOver(head);
 
         }
         return Response.ok(game).build();
@@ -125,7 +111,6 @@ public class SnakeResource {
         if (x == 0) {
             mogelijkeRichtingen.remove("left");
         }
-
 
         if (x == 10 && y == 10) {
             mogelijkeRichtingen.remove("right");
@@ -190,7 +175,6 @@ public class SnakeResource {
         Snake.getSnakeByAuthor(username).setColor(updateSnakeRequest.color);
         Snake.getSnakeByAuthor(username).setHead(updateSnakeRequest.head);
         Snake.getSnakeByAuthor(username).setTail(updateSnakeRequest.tail);
-//        System.out.println(getSnake().getHead());
         return Response.ok(Snake.getSnakeByAuthor(username)).build();
     }
 

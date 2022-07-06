@@ -10,8 +10,8 @@ import java.util.Objects;
 
 public class Games implements Serializable {
     private String id;
+    private int gezondheid;
     private int aantalBeurten;
-    private HashMap<String, Integer> meestBezochtePlek;
     private String redenEinde;
     private int snakeLengte;
     private int bochtNaarLinks = 0;
@@ -34,14 +34,6 @@ public class Games implements Serializable {
         resultaat = resultaat && ((Games) obj).id.equals(id);
         return resultaat;
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Games games = (Games) o;
-//        return aantalBeurten == games.aantalBeurten && id.equals(games.id) && meestBezochtePlek.equals(games.meestBezochtePlek) && redenEinde.equals(games.redenEinde);
-//    }
 
     public static ArrayList<String> getAlleGamesIDs(){
         ArrayList<String> alleGameIDs = new ArrayList<>();
@@ -77,6 +69,17 @@ public class Games implements Serializable {
             case "right":
                 bochtNaarRechts++;
                 break;
+        }
+    }
+
+    public void redenGameOver(HashMap head) {
+        int x = (Integer) head.get("x");
+        int y = (Integer) head.get("y");
+
+        if (x == 11 || y == 11) {
+            setRedenEinde("Muur geraakt!");;
+        } else {
+            setRedenEinde("Eigen staart geraakt!");
         }
     }
 
@@ -146,12 +149,12 @@ public class Games implements Serializable {
         this.aantalBeurten = aantalBeurten;
     }
 
-    public HashMap getMeestBezochtePlek() {
-        return meestBezochtePlek;
+    public int getGezondheid() {
+        return gezondheid;
     }
 
-    public void setMeestBezochtePlek(HashMap meestBezochtePlek) {
-        this.meestBezochtePlek = meestBezochtePlek;
+    public void setGezondheid(int gezondheid) {
+        this.gezondheid = gezondheid;
     }
 
     public String getRedenEinde() {
