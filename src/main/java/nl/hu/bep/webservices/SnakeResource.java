@@ -40,6 +40,7 @@ public class SnakeResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBattleSnake() {
+        System.out.println("test");
         return Response.ok(Snake.getSnakeByAuthor("ilias")).build();
     }
 

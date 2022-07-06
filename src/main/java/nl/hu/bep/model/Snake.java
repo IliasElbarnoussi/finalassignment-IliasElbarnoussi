@@ -46,6 +46,7 @@ public class Snake implements Serializable {
 
     public static Snake getSnakeByAuthor(String author) {
         for (Snake snake : AppManager.getAppManager().getAlleSnakes()) {
+            System.out.println(snake.getAuthor());
             if (snake.getAuthor().equals(author)) {
                 return snake;
             }
