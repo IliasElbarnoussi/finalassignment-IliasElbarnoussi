@@ -72,7 +72,10 @@ public class SnakeResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response endBattle(StartEndRequest startEndRequest) {
-        System.out.println(startEndRequest);
+        System.out.println(startEndRequest.game);
+        System.out.println(startEndRequest.turn);
+        System.out.println(startEndRequest.you);
+        System.out.println(startEndRequest.board);
 //        Games.getAlleGames().add(new Games())
         return Response.ok().build();
     }
