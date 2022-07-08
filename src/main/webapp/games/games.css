@@ -12,6 +12,7 @@ main {
 }
 
 .delete {
+    display: block;
     color: red;
     margin-left: 1rem;
     cursor: pointer;

@@ -35,7 +35,7 @@ public class GamesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response DeleteGame(@PathParam("id") String id){
         Games found = AppManager.getAppManager().getAlleGames().stream().filter(ids -> ids.getId().equals(id)).findAny().orElse(null);
-        Games.deleteGame(found);
+        AppManager.getAppManager().deleteGame(found);
         return Response.ok().build();
     }
 }

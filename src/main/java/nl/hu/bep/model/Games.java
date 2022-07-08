@@ -22,8 +22,6 @@ public class Games implements Serializable {
 
     public Games(String id) {
         this.id = id;
-
-
         if(!AppManager.getAppManager().getAlleGames().contains(this)) AppManager.getAppManager().getAlleGames().add(this);
 
     }
@@ -43,16 +41,13 @@ public class Games implements Serializable {
         return alleGameIDs;
     }
 
+
     public static Games getGameDetailtsByID(String gameID) {
         for (Games game : AppManager.getAppManager().getAlleGames()) {
             if (game.getId().equals(gameID))
                 return game;
         }
         return null;
-    }
-
-    public static void deleteGame(Games id){
-        AppManager.getAppManager().getAlleGames().remove(id);
     }
 
     public void aantalBochtjes(String bocht) {

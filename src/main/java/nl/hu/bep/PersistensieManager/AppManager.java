@@ -20,6 +20,10 @@ public class AppManager implements Serializable {
         return AlleGames;
     }
 
+    public static void deleteGame(Games id){
+        AppManager.getAppManager().getAlleGames().remove(id);
+    }
+
     public void setAlleGames(ArrayList<Games> alleGames) {
         AlleGames = alleGames;
     }

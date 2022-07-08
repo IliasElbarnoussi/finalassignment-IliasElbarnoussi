@@ -43,12 +43,13 @@ for (let input of formItems) {
     input.disabled = true;
 }
 
-service.getSnake().then(currentValues => {
-    refresh(currentValues);
+if (sessionStorage.JWT !== undefined) {
+    service.getSnake().then(currentValues => {
+        refresh(currentValues);
 
-    for (let input of formItems) {
-        console.log(input);
-        input.disabled = false;
+        for (let input of formItems) {
+            input.disabled = false;
+        }
+    });
 }
-});
 

@@ -177,5 +177,4 @@ public class SnakeResource {
         return Response.ok(Snake.getSnakeByAuthor(username)).build();
     }
 
-
 }
