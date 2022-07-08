@@ -22,6 +22,7 @@ public class GamesResource {
         return Response.ok(Games.getAlleGamesIDs()).build();
     }
 
+
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)

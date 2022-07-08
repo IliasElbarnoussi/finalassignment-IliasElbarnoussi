@@ -24,6 +24,7 @@ public class AppManager implements Serializable {
         AppManager.getAppManager().getAlleGames().remove(id);
     }
 
+
     public void setAlleGames(ArrayList<Games> alleGames) {
         AlleGames = alleGames;
     }

@@ -14,6 +14,7 @@ public class Snake implements Serializable {
     private String tail;
     private String version;
 
+
     private ArrayList<Games> mijnGames = new ArrayList<>();
     
     public Snake(String apiversion, String author, String color, String head, String tail, String version) {

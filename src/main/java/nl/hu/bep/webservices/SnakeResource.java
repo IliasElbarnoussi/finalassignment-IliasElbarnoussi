@@ -48,6 +48,7 @@ public class SnakeResource {
         return Response.ok(Snake.getSnakeByAuthor(sc.getUserPrincipal().getName())).build();
     }
 
+
     @POST
     @Path("/start")
     @Produces(MediaType.APPLICATION_JSON)

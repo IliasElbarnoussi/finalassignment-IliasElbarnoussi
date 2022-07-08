@@ -43,6 +43,7 @@ public class GamesTest {
         assertEquals(0,game.getAantalBeurten());
     }
 
+
     @Test
     void setTurn() {
         game.setAantalBeurten(22);

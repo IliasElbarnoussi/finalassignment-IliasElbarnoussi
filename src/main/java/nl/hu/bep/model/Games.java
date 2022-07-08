@@ -42,6 +42,7 @@ public class Games implements Serializable {
     }
 
 
+
     public static Games getGameDetailtsByID(String gameID) {
         for (Games game : AppManager.getAppManager().getAlleGames()) {
             if (game.getId().equals(gameID))

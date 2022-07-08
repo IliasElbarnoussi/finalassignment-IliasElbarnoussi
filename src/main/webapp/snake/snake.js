@@ -19,7 +19,6 @@ function update() {
     })
 }
 
-
 updateBtn.addEventListener('click', update);
 form.addEventListener('change', () => {
     updateBtn.disabled = false;
